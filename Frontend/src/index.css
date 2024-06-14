@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --sans-font-noto: 'Noto Sans', sans-serif;
+    --serif-font-noto: 'Noto Serif', serif;
+    --sans-font-roboto: 'Roboto', sans-serif;
+    --mobile-text-normal: 14px;
+}
+
+/* * {
+    font-family: var(--sans-font-noto);
+} */
+
+/* .mpf-heading {
+    font-family: var(--serif-font-noto);
+    font-weight: 600;
+} */
+
+@media screen and (max-width: 475px) {
+    body {
+        font-size: var(--mobile-text-normal)
+    }
+
+    .text-xheading {
+        font-size: 24px;
+    }
+
+    .text-heading {
+        font-size: 20px;
+    }
+
+    .text-subheading {
+        font-size: 16px;
+    }
+
+    .text-normal {
+        font-size: 14px;
+    }
+
+    .text-small {
+        font-size: 12px;
+    }
+
+    .text-xsmall {
+        font-size: 12px;
+    }
+}
+

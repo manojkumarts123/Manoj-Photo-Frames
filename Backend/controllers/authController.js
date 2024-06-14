@@ -21,13 +21,14 @@ export default class authController {
         let hashedPassword, userData
         try {
             let searchObj = isEmail ? { email: user } : { phone_number: parseInt(user) };
-            ({ password: hashedPassword, ...userData} = await userModel.findOne(searchObj).lean())
+            userData = await userModel.findOne(searchObj).lean()
         } catch (error) {
             return response(res, "error", PORTAL_CODES.LOGIN_FAILED, "Oops!! Something Went Wrong", `Error Occured While Fetching User Data: ${error.message}`)
         }
         
         // Check Password
         if(userData){
+            ({ password: hashedPassword, ...userData} = userData)
             const match = await bcrypt.compare(password, hashedPassword);
 
             if(match){

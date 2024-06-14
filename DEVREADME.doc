@@ -1,0 +1,88 @@
+GENERL INFO
+HEADING
+
+h1 is   32px   (2em)
+h2 is   24px (1.5em)
+h3 is 20.8px (1.3em)
+h4 is   16px   (1em)
+h5 is 12.8px (0.8em)
+h6 is 11.2px (0.7em)
+
+MANOJ PHOTO Frames
+BREAKPOINTS
+
+mobile - 475px
+tablet - 640px
+laptop - 1024px
+desktop - 1280px
+
+WEBSITE SPACING
+
+over all spacing
+mobile
+py-8px, px-24px
+
+other than mobile
+py-8px, px-64px
+
+Login/signup/alert/dialog spacing
+outer container - p-16px
+inner container - mt-64px, p-24px
+min-width - 176 px
+max-width - 396 px
+
+TYPOGRAPHY
+
+Font size
+
+mobile
+ultra heading - 18px - only nav bar Manoj Photo Frames -> text-4xl
+Extra Heading [RARE] - 24px -> text-3xl
+heading - 20px -> text-2xl
+sub-heading - 16px -> text-lg
+text - 14px -> text-base
+sub text - 12px -> text-sm
+extra small text [RARE] - 12px -> text-xs
+
+others
+ultra heading - 36px - only nav bar Manoj Photo Frames -> text-4xl
+Extra Heading [RARE] - 30px -> text-3xl
+heading - 24px -> text-2xl
+sub-heading - 18px -> text-lg
+text - 16px -> text-base
+sub text - 14px -> text-sm
+extra small text [RARE] - 12px -> text-xs
+
+Font Family
+
+Google Fonts
+'Noto sans', - body text
+'Noto Serif' - Heading, button text
+'Roboto' - form text
+
+font-weight
+normal [text] -> 400 - font-normal 
+semibold [sub heading, button text] -> 600 - font-semibold 
+bold [heading] -> 700 - font-bold 
+
+
+BORDER
+
+container -  border-radius -> 4px - rounded
+form field -  border-radius -> 4px - rounded
+
+
+Button
+my-16px
+
+mobile
+padding - 6px 12px
+
+others
+padding - 8px 16px
+
+
+Diaglog Boxes (error)
+
+p-12px
+mb-24px

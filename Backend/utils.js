@@ -8,15 +8,19 @@ import { RESPONSE_CODES } from './constants.js'
  * @param {string} type 2 types - error, success
  * @param {number} code Response Code
  * @param {any} clientInfo Client error or success message
- * @param {any} [devInfo=""] If provided, response.message will be an object containing clientInfo & devInfo, else response.message will be clientInfo as string 
+ * @param {any} [devInfo=""] If provided, response will have extra info which aids in developer in bugging 
  * @param  {...Object} [params] should be objects containing additional info to be added in the response
  * @returns Response for the calling API
  */
 const response = (res, type, code, clientInfo, devInfo = "", ...params) => {
     let resObj = {}
     resObj.code = code
-    resObj.message = devInfo ? { clientInfo, devInfo } : clientInfo
+    resObj.message = clientInfo
     
+    if(devInfo){
+        resObj.devInfo = devInfo
+    }
+
     if(params.length){
         params.forEach(param => {
             resObj = { ...resObj, ...param }
