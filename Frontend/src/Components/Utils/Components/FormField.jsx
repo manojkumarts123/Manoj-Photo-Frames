@@ -9,28 +9,25 @@ import React, { useEffect, useRef } from 'react'
  * submit - type, name(as id), displayName, disabled
  * 
 */
-const FormField = ({ type = 'text', name = 'name', displayName = 'Name', value='', setState = () => console.log('No State'), required=false, isDisabled = false, validator, error='', setError }) => {
-    console.log(name, validator)
+const FormField = ({ type = 'text', name = 'name', displayName = 'Name', value='', setState = () => console.log('No State'), options=[], required=false, isDisabled = false, validator, error='', setError }) => {
     let isInitialLoad = useRef(true)
 
     useEffect(() => {
         if(!value){
             // If not initialLoad and required then set error
-            !isInitialLoad.current && required && setError("This Field is Required")
+            !isInitialLoad.current && required && setError && setError("This Field is Required")
         }else{
             if(validator){
                 let validatorResult = validator(value)
                 if(validatorResult !== true){
-                    console.log("Validator Res", validatorResult);
-                    setError(validatorResult)
-                    console.log('Error', error);
+                    setError && setError(validatorResult)
                 }else{
                     // All Case Passed 
-                    setError('')
+                    setError && setError('')
                 }
             }else{
                 // Value there but no validator and error is shown in before render
-                setError('')
+                setError && setError('')
             }
         }
         // Set To false From 2 Render
@@ -42,9 +39,24 @@ const FormField = ({ type = 'text', name = 'name', displayName = 'Name', value='
         case 'password':
             return (
                 <div className='mb-6'>
-                    <label htmlFor={name} className='text-red-950'>{displayName}</label>
-                    <input type={type} id={name} name={name} onChange={e => setState(e.target.value)} className='block w-full px-2.5 py-1 border-red-300 border rounded focus:outline-none focus:border-red-400 focus:shadow-formfield mobile:px-3 mobile:py-1.5' />
+                    <label htmlFor={name} className={'text-red-950' + (required ? ' ast' : '')}>{displayName}</label>
+                    <input type={type} id={name} name={name} value={typeof value === 'object' ? value[{name}] : value} onChange={e => (typeof value === 'object') ? setState({...value, [name]: e.target.value}) : setState(e.target.value)} className='block w-full px-2.5 py-1 border-red-300 border rounded focus:outline-none focus:border-red-400 focus:shadow-formfield mobile:px-3 mobile:py-1.5' />
                     {error  && <div key={name} className='text-red-600 text-small font-medium mt-1'>{error}</div>}
+                </div>
+            )
+        case 'radio':
+            return(
+                <div className='mb-6'>
+                    <p className={'text-red-950 mb-2' + (required ? ' ast' : '')}>{displayName}</p>
+                    <div className='max-w-[90%] flex justify-between'>
+                        {options.map(ele => 
+                            <div className='flex items-center'>
+                                <input type={type} id={ele} name={name} value={ele} onChange={e => setState(e.target.value)} className='accent-red-700' /> 
+                                <label htmlFor={ele} className='pl-1'>{ele}</label>
+                            </div>
+                            )
+                        }
+                    </div>
                 </div>
             )
         case 'submit':
@@ -54,8 +66,8 @@ const FormField = ({ type = 'text', name = 'name', displayName = 'Name', value='
         default:
             return (
                 <div className='mb-4'>
-                    <label htmlFor={name} className='text-red-950'>{displayName}</label>
-                    <input type={type} id={name} name={name} onChange={e => setState(e.target.value)} className='block w-full px-2.5 py-1 border-red-300 border rounded focus:outline-none focus:border-red-400 focus:shadow-formfield mobile:px-3 mobile:py-1.5' />
+                    <label htmlFor={name} className={'text-red-950' + (required ? ' ast' : '')}>{displayName}</label>
+                    <input type={type} id={name} name={name} value={value} onChange={e => setState(e.target.value)} className='block w-full px-2.5 py-1 border-red-300 border rounded focus:outline-none focus:border-red-400 focus:shadow-formfield mobile:px-3 mobile:py-1.5' />
                 </div>
             )
     }

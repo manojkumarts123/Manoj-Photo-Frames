@@ -17,6 +17,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "simplebar": "^6.2.7",
     "swr": "^2.2.5"
   },
   "devDependencies": {

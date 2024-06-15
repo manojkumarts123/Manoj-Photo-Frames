@@ -22,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/user",
-        element: <Layout />,
+        element: <Layout bgColor='light' backdrop={1}/>,
         children: [
           {
             path: "login",

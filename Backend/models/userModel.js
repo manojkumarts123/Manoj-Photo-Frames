@@ -20,6 +20,7 @@ const userSchema = mongoose.Schema({
         street: String,
         area: String,
         city: String,
+        pincode: Number,
         state: String,
         country: String,
         land_mark: String

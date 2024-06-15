@@ -9,14 +9,17 @@
     --mobile-text-normal: 14px;
 }
 
-/* * {
-    font-family: var(--sans-font-noto);
-} */
+/* Custom Scroll Bar - Simplebar Config */
+.simplebar-scrollbar::before {
+    background-color: #f83b3b;
+    width: 5px;
+}
 
-/* .mpf-heading {
-    font-family: var(--serif-font-noto);
-    font-weight: 600;
-} */
+/* for ast(required fields in form) */
+.ast::after{
+    content: ' *';
+    color: red;
+}
 
 @media screen and (max-width: 475px) {
     body {

@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'backdrop1': "linear-gradient(to bottom right, #ffa0a080, #ffc7c780), url('/assets/images/backdrop1.jpg')"
+      },
       screens: {
         mobile: '475px',
         tablet: '640px',
@@ -36,9 +39,9 @@ export default {
           '200': '#ffc7c7',
           '300': '#ffa0a0', /* container border, form input border, Dialog bg */
           '400': '#ff6a6a', /* focus:form input border, Dialog border, diabled: btn bg */
-          '500': '#f83b3b', /* container box-shadow, focus:form input box-shadow*/
+          '500': '#f83b3b', /* container box-shadow, focus:form input box-shadow */
           '600': '#e61e1e', /* button bg */
-          '700': '#c11414', /* hover:button */
+          '700': '#c11414', /* hover:button, radio btn color */
           '800': '#a01414',
           '900': '#841818', /* Heading Text*/
           '950': '#480707', /* Text */

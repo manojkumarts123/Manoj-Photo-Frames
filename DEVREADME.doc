@@ -26,10 +26,11 @@ other than mobile
 py-8px, px-64px
 
 Login/signup/alert/dialog spacing
-outer container - p-16px
-inner container - mt-64px, p-24px
+flex center
+inner container - p-24px
 min-width - 176 px
 max-width - 396 px
+max-height- 500 px
 
 TYPOGRAPHY
 
@@ -86,3 +87,7 @@ Diaglog Boxes (error)
 
 p-12px
 mb-24px
+
+BACKGROUND GRADIENT
+light - 300 to 200
+dark - 500 to 400
