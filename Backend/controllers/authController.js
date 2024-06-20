@@ -20,7 +20,7 @@ export default class authController {
         // Fetch User Data
         let hashedPassword, userData
         try {
-            let searchObj = isEmail ? { email: user } : { phone_number: parseInt(user) };
+            let searchObj = isEmail ? { email: user } : { phoneNo: parseInt(user) };
             userData = await userModel.findOne(searchObj).lean()
         } catch (error) {
             return response(res, "error", PORTAL_CODES.LOGIN_FAILED, "Oops!! Something Went Wrong", `Error Occured While Fetching User Data: ${error.message}`)
@@ -44,10 +44,10 @@ export default class authController {
 	 * User Signup - Only Customers Are Allowed *
 	 **********************/
     static userSignup = async (req, res) => {
-        const { name, email, phone_number, address, gender, password, role } = req.body
-        
+        const { name, email, phoneNo, gender, password, address, role } = req.body
+
         // Validation
-        if (!name || !email || !phone_number || !gender || !password) {
+        if (!name || !email || !phoneNo || !gender || !password) {
             return response(res, "error", PORTAL_CODES.INVALID_SIGNUP_PARAMS, "Oops! Required Signup Input Missing")
         } else {
             let message = []
@@ -61,7 +61,7 @@ export default class authController {
             message = emailErrors ? message.concat(emailErrors) : message
 
             // Phone Validation
-            let phoneNoErrors = validatePhoneNo(phone_number)
+            let phoneNoErrors = validatePhoneNo(phoneNo)
             message = phoneNoErrors ? message.concat(phoneNoErrors) : message
 
             // Password Validation
@@ -69,12 +69,12 @@ export default class authController {
             message = passwordErrors ? message.concat(passwordErrors) : message
             
             if(message.length){
-                return response(res, "error", PORTAL_CODES.INVALID_SIGNUP_PARAMS, message)
+                return response(res, "error", PORTAL_CODES.INVALID_SIGNUP_PARAMS, (message.length == 1 ? message[0] : message))
             }
         }
 
         // Check If User Already Exists With The Data Provided
-        let duplicateUser = await userModel.findOne().or([{ email }, { phone_number }])
+        let duplicateUser = await userModel.findOne().or([{ email }, { phoneNo }])
         if(duplicateUser){
             return response(res, "error", PORTAL_CODES.INVALID_SIGNUP_PARAMS, "User With Provided Email/Phone No Already Exists")
         }
@@ -95,7 +95,7 @@ export default class authController {
         let userObj = {
             name,
             email,
-            phone_number,
+            phoneNo,
             address: address ? address : [],
             gender,
             password: hashedPassword,

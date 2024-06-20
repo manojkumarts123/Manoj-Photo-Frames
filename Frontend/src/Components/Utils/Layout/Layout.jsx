@@ -16,15 +16,18 @@ const Layout = ({ bgColor='', backdrop='' }) => {
   }
 
   switch (backdrop) {
-    case 1:
-      className += ' bg-backdrop1 bg-cover'
+    case '1-light':
+      className += ' bg-backdrop1-light bg-cover'
+      break;
+    case '1-dark':
+      className += ' bg-backdrop1-dark bg-cover'
       break;
   
     default:
       break;
   }
   return (
-    <div className={className + ' min-h-[calc(100svh-50px)] px-6 mobile:px-16'}>
+    <div className={`${className} flex-1 p-6 mobile:px-16 mobile:py-8`}>
         <Outlet />
     </div>
   )

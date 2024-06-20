@@ -4,9 +4,11 @@ import axios from 'axios'
 
 import FormField from '../Utils/Components/FormField'
 import ErrorDialog from '../Utils/Components/ErrorDialog'
+import Loading from '../Utils/Components/Loading'
 import { isValidEmail, isValidPhoneNo, isValidPassword } from '../Utils/utils'
+import { RESPONSE_CODES } from '../../constants'
 
-const Login = () => {
+const Login = ({ setCurrentUser }) => {
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
 
@@ -32,9 +34,11 @@ const Login = () => {
             })
             setIsLoading(false)
 
-            if (loginData.data.code == 10003) {
-                setServerError('')
-                navigate('../../api/v1/customer/dashboard')
+            if (loginData.data.code == RESPONSE_CODES.LOGIN_SUCCESS) {
+                let userData = loginData.data.userData
+                localStorage.setItem('currentUser', JSON.stringify(userData)) //Save It To Local Storage To Remember Between Reloads
+                setCurrentUser(userData)
+                navigate(userData.role == 'Customer' ? '../../api/v1/customer/dashboard' : '../../api/v1/admin/dashboard')
             } else {
                 throw new Error("Oops!!Something Went Wrong")
             }
@@ -49,15 +53,13 @@ const Login = () => {
     }
 
     return (
-        <div className='container mx-auto min-h-[inherit] flex items-center justify-center p-4'>
-        {/* <div className='container mx-auto min-h-[inherit] p-4'> */}
-            {/* <div id='login-container' className='bg-red-50 border-2 border-solid border-red-300 rounded shadow-container mx-auto mt-16 w-full min-w-44 max-w-[396px] p-6'> */}
-            <div id='login-container' className='bg-red-50 border-2 border-solid border-red-300 rounded shadow-container max-h-[500px] w-full min-w-44 max-w-[396px] p-6'>
-                <h3 className='font-noto-serif font-bold text-red-900 text-heading text-center mb-6'>Login</h3>
+        <div className='h-full container mx-auto flex items-center justify-center p-4'>
+            <div id='login-container' className='flex flex-col bg-red-50 border-2 border-solid border-red-300 rounded shadow-container max-h-[525px] w-full min-w-44 max-w-[396px] p-6'>
+                <h2 className='font-noto-serif font-bold text-red-900 text-heading text-center mb-6'>Login</h2>
                 {serverErrors && <ErrorDialog errorInfo={serverErrors} />}
 
                 <form
-                    className='font-roboto max-h-[calc(500px-32px-48px-24px)]' // 500px - container heigth, 32px - heading heigth, 48px - container padding(top+bottom), 24px- heading margin bottom
+                    className='h-full flex-1 overflow-auto font-roboto' 
                     onSubmit={event => {
                         event.preventDefault()
                         loginSubmit()
@@ -65,7 +67,7 @@ const Login = () => {
                 >
                     <FormField type='text' name='user' displayName='Email/Phone No' value={user} setState={setUser} required={true} validator={userValidator} error={userError} setError={setUserError}/>
                     <FormField type='password' name='password' displayName='Password' value={password} setState={setPassword} required={true} error={passwordError} setError={setPasswordError}/>
-                    <FormField type='submit' name='loginSubmit' displayName={isLoading ? 'Loading...' : 'Login'} isDisabled={!user.length || !password.length || isLoading || serverErrors || userError || passwordError} />
+                    <FormField type='submit' name='loginSubmit' displayName='Login' isDisabled={!user.length || !password.length || isLoading || userError || passwordError} isLoading={isLoading} />
                 </form>
             </div>
         </div>

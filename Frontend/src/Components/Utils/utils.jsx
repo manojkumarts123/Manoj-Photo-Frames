@@ -73,9 +73,22 @@ const isValidPassword = password => {
     return true
 }
 
+/**
+ * Converts the data Array to List 
+ * @param {[string]} data 
+ */
+const displayAsList = data => {
+    return (
+        <ul className='list-[circle] pl-3'>
+            {data.map((ele,index) => <li key={index}>{ele}</li>)}
+        </ul>
+    )
+}
+
 export {
     isValidName,
     isValidEmail,
     isValidPhoneNo,
-    isValidPassword
+    isValidPassword,
+    displayAsList
 }
