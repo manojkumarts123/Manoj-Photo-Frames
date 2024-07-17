@@ -31,6 +31,14 @@ const response = (res, type, code, clientInfo, devInfo = "", ...params) => {
 }
 
 /**
+ * try catch Wrapper to avoid writing try/catch for every function
+ * @param {function} func 
+ * @returns wrapped function
+ */
+const tryCatchWrapper = func => (req, res, next) => 
+    Promise.resolve(func(req, res, next)).catch(next)
+
+/**
  * Name Validation
  * @param {string} name 
  * @returns {boolean|string[]} If Errors Present -> returns Error List, else false -> indicating no errors  
@@ -115,6 +123,7 @@ const validatePassword = password => {
 
 export {
     response,
+    tryCatchWrapper,
     validateName,
     validateEmail,
     validatePhoneNo,

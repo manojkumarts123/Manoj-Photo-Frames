@@ -11,7 +11,13 @@ const ROLES = {
     CUSTOMER:  "Customer"
 }
 
+const DEFAULT_CATEGORY_ICON = "/images/category_icons/god.png"
+const DEFAULT_PHOTO_ICON = "/images/category_photos/default.png"
+
+
 export {
     RESPONSE_CODES,
-    ROLES
+    ROLES,
+    DEFAULT_CATEGORY_ICON,
+    DEFAULT_PHOTO_ICON
 }

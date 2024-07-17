@@ -1,6 +1,11 @@
 import express from "express";
-import authController from "../controllers/authController.js"
+
+import { tryCatchWrapper } from '../utils.js'
+import productController from "../controllers/productController.js"
 
 const router = express.Router();
+
+//Product
+router.route("/review/create").post(tryCatchWrapper(productController.createProductReview))
 
 export default router;

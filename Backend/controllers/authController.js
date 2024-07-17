@@ -4,7 +4,7 @@ import { ROLES } from '../constants.js'
 import { response, validateName, validateEmail, validatePhoneNo, validatePassword } from '../utils.js'
 import bcrypt from 'bcrypt'
 
-export default class authController {
+class authController {
     /***********************
 	 * User Login *
 	 **********************/
@@ -19,12 +19,8 @@ export default class authController {
 
         // Fetch User Data
         let hashedPassword, userData
-        try {
-            let searchObj = isEmail ? { email: user } : { phoneNo: parseInt(user) };
-            userData = await userModel.findOne(searchObj).lean()
-        } catch (error) {
-            return response(res, "error", PORTAL_CODES.LOGIN_FAILED, "Oops!! Something Went Wrong", `Error Occured While Fetching User Data: ${error.message}`)
-        }
+        let searchObj = isEmail ? { email: user } : { phone_number: parseInt(user) };
+        userData = await userModel.findOne(searchObj).lean()
         
         // Check Password
         if(userData){
@@ -44,10 +40,10 @@ export default class authController {
 	 * User Signup - Only Customers Are Allowed *
 	 **********************/
     static userSignup = async (req, res) => {
-        const { name, email, phoneNo, gender, password, address, role } = req.body
+        const { name, email, phone_number, gender, password, address, role } = req.body
 
-        // Validation
-        if (!name || !email || !phoneNo || !gender || !password) {
+        /*** Validation ***/
+        if (!name || !email || !phone_number || !gender || !password) {
             return response(res, "error", PORTAL_CODES.INVALID_SIGNUP_PARAMS, "Oops! Required Signup Input Missing")
         } else {
             let message = []
@@ -57,11 +53,11 @@ export default class authController {
             message = nameErrors ? message.concat(nameErrors) : message
 
             // Email Validation
-            let emailErrors = await validateEmail(email)
+            let emailErrors = validateEmail(email)
             message = emailErrors ? message.concat(emailErrors) : message
 
             // Phone Validation
-            let phoneNoErrors = validatePhoneNo(phoneNo)
+            let phoneNoErrors = validatePhoneNo(phone_number)
             message = phoneNoErrors ? message.concat(phoneNoErrors) : message
 
             // Password Validation
@@ -74,19 +70,18 @@ export default class authController {
         }
 
         // Check If User Already Exists With The Data Provided
-        let duplicateUser = await userModel.findOne().or([{ email }, { phoneNo }])
-        if(duplicateUser){
+        let duplicateUser = await userModel.findOne().or([{ email }, { phone_number }])
+        if(duplicateUser)
             return response(res, "error", PORTAL_CODES.INVALID_SIGNUP_PARAMS, "User With Provided Email/Phone No Already Exists")
-        }
         
+        /*** User Creation ***/
         // Hash the password
         let hashedPassword
         let salt = await bcrypt.genSalt(10);
         if(salt){
             hashedPassword = await bcrypt.hash(password, salt);
-            if(!hashedPassword){
+            if(!hashedPassword)
                 return response(res, "error", PORTAL_CODES.HASH_ERROR, "Oops!! Something Went Wrong. Please Contact Admin", "Error Occurred While Hashing Password")
-            }
         }else{
             return response(res, "error", PORTAL_CODES.HASH_ERROR, "Oops!! Something Went Wrong. Please Contact Admin", "Error Occurred While Generating Salt")
         }
@@ -95,21 +90,19 @@ export default class authController {
         let userObj = {
             name,
             email,
-            phoneNo,
+            phone_number: phone_number,
             address: address ? address : [],
             gender,
             password: hashedPassword,
             role: role ? role : ROLES.CUSTOMER
         }
         
-        try{
-            let user = await userModel.create(userObj)
-            let {password, ...userData} = user._doc
-            return user
-                ? response(res, "success", PORTAL_CODES.SIGNUP_SUCCESS, "Hurry!! User Registration Success", "", { userData })
-                : response(res, "error", PORTAL_CODES.SIGNUP_FAILED, "Oops!! User Registration Failed", "Error Occured While Inserting The Data")
-        }catch(err){
-            return response(res, "error", PORTAL_CODES.SIGNUP_FAILED, "Oops!! User Registration Failed", `Error Occured While Inserting The Data: ${err.message}`)
-        }
+        let user = await userModel.create(userObj)
+        ({password, ...userData} = user._doc)
+        return user
+            ? response(res, "success", PORTAL_CODES.SIGNUP_SUCCESS, "Hurry!! User Registration Success", "", { userData })
+            : response(res, "error", PORTAL_CODES.SIGNUP_FAILED, "Oops!! User Registration Failed", "Error Occured While Inserting The Data")
     }
 }
+
+export default authController

@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    phoneNo: {
+    phone_number: {
         type: Number,
         required: true,
         unique: true
@@ -37,8 +37,11 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     }
-});
+}, 
+{ 
+    timestamps: true 
+})
 
-const userModel = mongoose.model("Users", userSchema);
+const userModel = mongoose.model("Users", userSchema)
 
-export default userModel;
+export default userModel
