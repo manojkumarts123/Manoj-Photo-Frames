@@ -91,3 +91,16 @@ mb-24px
 BACKGROUND GRADIENT
 light - 300 to 200
 dark - 500 to 400
+
+
+BACKEND
+Category Code - uniquely represent category
+
+Product Code
+P-L_V_S-1
+    P - Product Type (Photo)
+    L_V_S - Category (Lakshmi, Vinayaka, Saraswati)
+    1 - Product id
+
+Heading spacing
+mb-24px
